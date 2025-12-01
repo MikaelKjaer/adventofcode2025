@@ -1,4 +1,10 @@
 #Utility library
 
-add_library(adventofcode_utility_library INTERFACE)
-target_include_directories(adventofcode_utility_library INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+add_library(adventofcode_utility_library)
+target_sources(adventofcode_utility_library PUBLIC FILE_SET utility TYPE CXX_MODULES FILES "utility.cppm")
+set_target_properties(adventofcode_utility_library PROPERTIES CXX_MODULE_STD 1)
+set_target_properties(adventofcode_utility_library PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(adventofcode_utility_library PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+target_compile_options(adventofcode_utility_library PRIVATE ${DAY_FLAGS})
+target_link_libraries(adventofcode_utility_library fmt::fmt)
+add_library(aoc::utility ALIAS adventofcode_utility_library)

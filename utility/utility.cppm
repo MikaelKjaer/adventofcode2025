@@ -1,36 +1,19 @@
-#pragma once
+export module utility;
 
-#include <algorithm>
-#include <charconv>
-#include <execution>
-#include <filesystem>
-#include <fstream>
-#include <functional>
-#include <list>
-#include <map>
-#include <optional>
-#include <ranges>
-#include <regex>
-#include <set>
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <fmt/format.h>
-#include <fmt/compile.h>
+import std;
+import fmt;
 
 export namespace aoc::utility
 {
   using input_t = std::vector<std::string>;
 
-  inline input_t read_file(const std::filesystem::path& path)
+  input_t read_file(const std::filesystem::path& path)
   {
     input_t input;
     std::ifstream file_in(path);
     if (!file_in)
     {
-      throw std::runtime_error(fmt::format(FMT_STRING("Unable to open input file: {0}"), path.string()));
+      throw std::runtime_error(fmt::format("Unable to open input file: {0}", path.string()));
     }
 
     std::string line;
@@ -65,7 +48,7 @@ export namespace aoc::utility
 
   void print_output(std::uint8_t part_no, auto& result, auto time_taken)
   {
-    fmt::print(FMT_STRING("Part {0}: {1} in {2}us\n"), part_no, result, time_taken);
+    fmt::print("Part {0}: {1} in {2}us\n", part_no, result, time_taken);
   }
 
   template <typename...Args>
@@ -75,7 +58,7 @@ export namespace aoc::utility
     auto result = to_run(std::forward<Args&&>(args)...);
     auto end = std::chrono::high_resolution_clock::now();
     auto time_taken = end - start;
-    fmt::print(FMT_STRING("Test {0}: {1} in {2} us\n"), test_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+    fmt::print("Test {0}: {1} in {2} us\n", test_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
   }
 
   template <typename...Args>
