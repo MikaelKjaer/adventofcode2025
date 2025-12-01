@@ -1,7 +1,6 @@
 export module utility;
 
 import std;
-import fmt;
 
 export namespace aoc::utility
 {
@@ -13,7 +12,7 @@ export namespace aoc::utility
     std::ifstream file_in(path);
     if (!file_in)
     {
-      throw std::runtime_error(fmt::format("Unable to open input file: {0}", path.string()));
+      throw std::runtime_error(std::format("Unable to open input file: {0}", path.string()));
     }
 
     std::string line;
@@ -48,7 +47,7 @@ export namespace aoc::utility
 
   void print_output(std::uint8_t part_no, auto& result, auto time_taken)
   {
-    fmt::print("Part {0}: {1} in {2}us\n", part_no, result, time_taken);
+    std::print("Part {0}: {1} in {2}us\n", part_no, result, time_taken);
   }
 
   template <typename...Args>
@@ -58,7 +57,7 @@ export namespace aoc::utility
     auto result = to_run(std::forward<Args&&>(args)...);
     auto end = std::chrono::high_resolution_clock::now();
     auto time_taken = end - start;
-    fmt::print("Test {0}: {1} in {2} us\n", test_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+    std::print("Test {0}: {1} in {2} us\n", test_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
   }
 
   template <typename...Args>
