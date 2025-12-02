@@ -50,21 +50,104 @@ namespace
   {
     std::size_t result = 0uz;
 
+    std::size_t total = 0uz;
     for (const auto& entry : entries)
     {
       std::size_t lower_bound = entry.lower;
-      if (entry.lower_digits % 2 != 0)
+      if (entry.lower_digits % 2 != 0 and entry.upper_digits % 2 == 0)
       {
-        for ()
+        while (aoc::utility::count_digits(lower_bound) % 2 != 0 and lower_bound < entry.upper)
+        {
+          ++lower_bound;
+        }
+      }
+
+      std::size_t upper_bound = entry.upper;
+      if (entry.upper_digits % 2 != 0 and entry.lower_digits % 2 == 0)
+      {
+        while (aoc::utility::count_digits(upper_bound) % 2 != 0 and upper_bound > entry.lower)
+        {
+          --upper_bound;
+        }
+      }
+
+      for (std::size_t i = lower_bound; i <= upper_bound; ++i)
+      {
+        const auto digits = aoc::utility::count_digits(i);
+        const auto divisor = static_cast<std::size_t>(std::pow(10uz, (digits / 2uz)));
+        const auto upper = i / divisor;
+        const auto lower = i % divisor;
+        if (upper == lower)
+        {
+          //std::println("Part 1 found: {}", i);
+          result += i;
+          ++total;
+        }
       }
     }
-
+    std::println("Part 1 total found: {}", total);
     return result;
   }
 
-  std::size_t part_two(const entries_t&)
+  bool split_and_compare(std::size_t value, std::size_t digits)
   {
-    return 0uz;
+    const auto divisor = static_cast<std::size_t>(std::pow(10uz, digits));
+    std::size_t previous = value / divisor;
+    std::vector<std::size_t> remainders;
+    remainders.emplace_back(value % divisor);
+
+    while (previous > 0)
+    {
+      remainders.emplace_back(previous % divisor);
+      previous /= divisor;
+    }
+
+    bool is_same = true;
+    previous = remainders.front();
+    for (auto& remainder : remainders)
+    {
+      if (previous != remainder)
+      {
+        is_same = false;
+      }
+    }
+    return is_same;
+  }
+
+  std::size_t part_two(const entries_t& entries)
+  {
+    std::size_t result = 0uz;
+    std::size_t total = 0uz;
+
+    for (const auto& entry : entries)
+    {
+      std::size_t lower_bound = entry.lower;
+      std::size_t upper_bound = entry.upper;
+
+      for (std::size_t i = lower_bound; i <= upper_bound; ++i)
+      {
+        const auto digits = aoc::utility::count_digits(i);
+        if (digits == 1)
+        {
+          continue;
+        }
+
+        for (std::size_t j = 1; j <= digits / 2; ++j)
+        {
+          if ((j == 1 or digits % j == 0) and split_and_compare(i, j))
+          {
+            //std::println("Part 2 found: {}", i);
+            result += i;
+            ++total;
+            break;
+          }
+        }
+
+      }
+    }
+
+    std::println("Part 2 total found: {}", total);
+    return result;
   }
 }
 

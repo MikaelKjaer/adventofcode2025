@@ -8,16 +8,16 @@ export namespace aoc::utility
 
   std::size_t count_digits(std::uint64_t x)
   {
-    constexpr static std::array<int, 65> digits = {19, 19, 19, 19, 18, 18, 18,
-                                                   17, 17, 17, 16, 16, 16,
-                                                   16, 15, 15, 15, 14, 14, 14,
-                                                   13, 13, 13, 13, 12, 12,
-                                                   12, 11, 11, 11, 10, 10, 10,
-                                                   10, 9,  9,  9,  8,  8,
-                                                   8,  7,  7,  7,  7,  6,  6,
-                                                   6,  5,  5,  5,  4,  4,
-                                                   4,  4,  3,  3,  3,  2,  2,
-                                                   2,  1,  1,  1,  1,  1};
+    constexpr static std::array<std::uint64_t, 65> digits = {19, 19, 19, 19, 18, 18, 18,
+                                                             17, 17, 17, 16, 16, 16,
+                                                             16, 15, 15, 15, 14, 14, 14,
+                                                             13, 13, 13, 13, 12, 12,
+                                                             12, 11, 11, 11, 10, 10, 10,
+                                                             10, 9,  9,  9,  8,  8,
+                                                             8,  7,  7,  7,  7,  6,  6,
+                                                             6,  5,  5,  5,  4,  4,
+                                                             4,  4,  3,  3,  3,  2,  2,
+                                                             2,  1,  1,  1,  1,  1};
     constexpr static std::array<std::uint64_t, 65> table = { 18446744073709551615ULL,
                                                              18446744073709551615ULL,
                                                              18446744073709551615ULL,
@@ -83,7 +83,7 @@ export namespace aoc::utility
                                                              9ULL,
                                                              9ULL,
                                                              0ULL};
-  const int log = std::countl_zero(x);
+  const auto log = static_cast<std::size_t>(std::countl_zero(x));
   const std::uint64_t low = table[log];
   const std::uint64_t high = digits[log];
   return (x > low) + high;
@@ -130,17 +130,33 @@ export namespace aoc::utility
 
   void print_output(std::uint8_t part_no, auto& result, auto time_taken)
   {
-    std::print("Part {0}: {1} in {2}us\n", part_no, result, time_taken);
+    using namespace std::chrono_literals;
+    auto us = std::chrono::duration_cast<std::chrono::microseconds>(time_taken);
+    if (us > 1ms)
+    {
+      if (us > 1s)
+      {
+        std::print("Part {0}: {1} in {2}s\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+      }
+      else
+      {
+        std::print("Part {0}: {1} in {2}ms\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+      }
+    }
+    else
+    {
+      std::print("Part {0}: {1} in {2}us\n", part_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+    }
   }
 
   template <typename...Args>
   void run_test(std::uint8_t test_no, auto to_run, Args&&... args)
   {
-    auto start = std::chrono::high_resolution_clock::now();
+    const auto start = std::chrono::high_resolution_clock::now();
     auto result = to_run(std::forward<Args&&>(args)...);
-    auto end = std::chrono::high_resolution_clock::now();
-    auto time_taken = end - start;
-    std::print("Test {0}: {1} in {2} us\n", test_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+    const auto end = std::chrono::high_resolution_clock::now();
+    const auto time_taken = end - start;
+    std::print("Test {0}: {1} in {2} us\n", test_no, result, time_taken);
   }
 
   template <typename...Args>
@@ -150,6 +166,6 @@ export namespace aoc::utility
     auto result = to_run(std::forward<Args&&>(args)...);
     auto end = std::chrono::high_resolution_clock::now();
     auto time_taken = end - start;
-    print_output(part_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+    print_output(part_no, result, time_taken);
   }
 }
