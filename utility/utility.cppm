@@ -131,21 +131,28 @@ export namespace aoc::utility
   void print_output(std::uint8_t part_no, auto& result, auto time_taken)
   {
     using namespace std::chrono_literals;
-    auto us = std::chrono::duration_cast<std::chrono::microseconds>(time_taken);
-    if (us > 1ms)
+    auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(time_taken);
+    if (ns > 1us)
     {
-      if (us > 1s)
+      if (ns > 1ms)
       {
-        std::print("Part {0}: {1} in {2}s\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+        if (ns > 1s)
+        {
+          std::print("Part {0}: {1} in {2}s\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+        }
+        else
+        {
+          std::print("Part {0}: {1} in {2}ms\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+        }
       }
       else
       {
-        std::print("Part {0}: {1} in {2}ms\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+        std::print("Part {0}: {1} in {2}us\n", part_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
       }
     }
     else
     {
-      std::print("Part {0}: {1} in {2}us\n", part_no, result, std::chrono::duration_cast<std::chrono::microseconds>(time_taken).count());
+      std::print("Part {0}: {1} in {2}ns\n", part_no, result, std::chrono::duration_cast<std::chrono::nanoseconds>(time_taken).count());
     }
   }
 

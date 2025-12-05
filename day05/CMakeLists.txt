@@ -1,2 +1,10 @@
 #Day 05 problem
-setup_day_build("day05")
+configure_file("day05_1.txt" "day05_1.txt" COPYONLY)
+configure_file("day05_2.txt" "day05_2.txt" COPYONLY)
+add_executable(day05 "main.cpp")
+target_include_directories(day05 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/.)
+set_target_properties(day05 PROPERTIES CXX_MODULE_STD 1)
+set_target_properties(day05 PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(day05 PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+target_compile_options(day05 PRIVATE ${DAY_FLAGS})
+target_link_libraries(day05 adventofcode_utility_library)
