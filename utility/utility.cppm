@@ -103,6 +103,7 @@ export namespace aoc::utility
     {
       input.push_back(line);
     }
+    input.shrink_to_fit();
     return input;
   }
 
