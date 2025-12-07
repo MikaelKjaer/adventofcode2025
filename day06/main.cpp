@@ -185,5 +185,4 @@ int main(int, char *[])
     return -1;
   }
   return 0;
-  return 0;
 }

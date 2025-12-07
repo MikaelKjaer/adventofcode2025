@@ -10,24 +10,6 @@ include(FetchContent)
 include(day_utility)
 
 setup_day_flags()
-
-FetchContent_Declare( fmt
-GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
-GIT_TAG 12.1.0
-)
-set(FMT_MODULE ON)
-FetchContent_MakeAvailable(fmt)
-
-FetchContent_Declare( scn
-GIT_REPOSITORY "https://github.com/eliaskosunen/scnlib.git"
-GIT_TAG master
-)
-set(SCN_TESTS OFF)
-set(SCN_BENCHMARKS OFF)
-set(SCN_MODULES ON)
-set(SCN_DISABLE_FAST_FLOAT ON)
-FetchContent_MakeAvailable(scn)
-
 find_package(Threads REQUIRED)
 
 file(GLOB TEST_INPUT_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/input/*.txt)
