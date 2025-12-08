@@ -139,7 +139,7 @@ export namespace aoc::utility
       {
         if (ns > 1s)
         {
-          std::print("Part {0}: {1} in {2}s\n", part_no, result, std::chrono::duration_cast<std::chrono::milliseconds>(time_taken).count());
+          std::print("Part {0}: {1} in {2}s\n", part_no, result, std::chrono::duration_cast<std::chrono::seconds>(time_taken).count());
         }
         else
         {
