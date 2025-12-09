@@ -7,39 +7,12 @@ import utility;
 
 namespace
 {
-  struct point3d
-  {
-    constexpr point3d() :
-      x{0}, y{0}, z{0}
-    {}
-    constexpr point3d(const std::int64_t i, const std::int64_t j, const std::int64_t k) :
-      x{i}, y{j}, z{k}
-    {}
-    constexpr point3d(const point3d&) = default;
-    constexpr point3d(point3d&&) noexcept = default;
-    constexpr ~point3d() = default;
-    constexpr point3d& operator=(const point3d&) = default;
-    constexpr point3d& operator=(point3d&&) noexcept = default;
-    constexpr bool operator==(const point3d& rhs) const = default;
-    constexpr std::strong_ordering operator<=>(const point3d& rhs) const = default;
-
-    std::int64_t distance(const point3d& other) const
-    {
-      const auto diffX = std::pow(x - other.x, 2);
-      const auto diffY = std::pow(y - other.y, 2);
-      const auto diffZ = std::pow(z - other.z, 2);
-      return static_cast<std::int64_t>(diffX + diffY + diffZ);
-    }
-
-    std::int64_t x, y, z;
-  };
-
   struct circuit_connection
   {
     std::size_t first_index, second_index;
   };
 
-  using points_t = std::vector<point3d>;
+  using points_t = std::vector<aoc::utility::point3d>;
 
   points_t parse(const aoc::utility::input_t& input)
   {

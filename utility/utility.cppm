@@ -6,6 +6,88 @@ export namespace aoc::utility
 {
   using input_t = std::vector<std::string>;
 
+  struct point3d
+  {
+    constexpr point3d() :
+      x{0}, y{0}, z{0}
+    {}
+    constexpr point3d(const std::int64_t i, const std::int64_t j, const std::int64_t k) :
+      x{i}, y{j}, z{k}
+    {}
+    constexpr point3d(const point3d&) = default;
+    constexpr point3d(point3d&&) noexcept = default;
+    constexpr ~point3d() = default;
+    constexpr point3d& operator=(const point3d&) = default;
+    constexpr point3d& operator=(point3d&&) noexcept = default;
+    constexpr bool operator==(const point3d& rhs) const = default;
+    constexpr std::strong_ordering operator<=>(const point3d& rhs) const = default;
+
+    std::int64_t distance(const point3d& other) const
+    {
+      const auto diffX = std::pow(x - other.x, 2);
+      const auto diffY = std::pow(y - other.y, 2);
+      const auto diffZ = std::pow(z - other.z, 2);
+      return static_cast<std::int64_t>(diffX + diffY + diffZ);
+    }
+
+    std::int64_t x, y, z;
+  };
+
+  struct point2d
+  {
+    constexpr point2d() :
+      x{0}, y{0}
+    {}
+    constexpr point2d(const std::int64_t i, const std::int64_t j) :
+      x{i}, y{j}
+    {}
+    constexpr point2d(const point2d&) = default;
+    constexpr point2d(point2d&&) noexcept = default;
+    constexpr ~point2d() = default;
+    constexpr point2d& operator=(const point2d&) = default;
+    constexpr point2d& operator=(point2d&&) noexcept = default;
+    constexpr bool operator==(const point2d& rhs) const = default;
+    constexpr std::strong_ordering operator<=>(const point2d& rhs) const = default;
+
+    std::int64_t x, y;
+  };
+
+  point2d minimum(point2d a, point2d b)
+  {
+    point2d r;
+    r.x = std::min(a.x, b.x);
+    r.y = std::min(a.y, b.y);
+    return r;
+  }
+
+  point3d minimum(point3d a, point3d b)
+  {
+    point3d r;
+    r.x = std::min(a.x, b.x);
+    r.y = std::min(a.y, b.y);
+    r.z = std::min(a.z, b.z);
+    return r;
+  }
+
+  point2d maximum(point2d a, point2d b)
+  {
+    point2d r;
+    r.x = std::max(a.x, b.x);
+    r.y = std::max(a.y, b.y);
+    return r;
+  }
+
+  point3d maximum(point3d a, point3d b)
+  {
+    point3d r;
+    r.x = std::max(a.x, b.x);
+    r.y = std::max(a.y, b.y);
+    r.z = std::max(a.z, b.z);
+    return r;
+  }
+
+
+
   std::size_t count_digits(std::uint64_t x)
   {
     constexpr static std::array<std::uint64_t, 65> digits = {19, 19, 19, 19, 18, 18, 18,
